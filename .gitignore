@@ -1,0 +1,22 @@
+# Cache Python et Jupyter
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+
+# Fichiers de données volumineux ou générés (facultatif si vous souhaitez les exclure)
+data/DimActor.csv
+data/DimCountry.csv
+data/DimDate.csv
+data/DimDirector.csv
+data/DimGenre.csv
+data/DimRating.csv
+data/DimType.csv
+data/F_Netflix.csv
+
+# Captures d'écrans 
+Capture d’écran 2026-07-04 212037.jpg
+Capture d’écran 2026-07-04 220502.jpg
+Capture d’écran 2026-07-05 170750.jpg
+
+#Fichiers locaux 
+validation_report.md
