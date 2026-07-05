@@ -10,15 +10,19 @@ Voici les captures illustrant les différentes étapes de conception de ce proje
 
 ### 1. Dashboard Power BI (Version Finale)
 Le dashboard propose une interface premium sur thème sombre facilitant l'exploration des données Netflix (KPIs, tendances de croissance, répartition géographique et catégorielle).
+
 ![Dashboard Power BI V1](screenshots/dashboard.jpg)
 
 ### 2. Modélisation en Étoile (Power BI Model View)
 Les dimensions découpées (Acteurs, Pays, Genres, Directeurs) sont connectées à la table de faits `F_Netflix` avec des relations configurées de manière à propager correctement les filtres.
+
 ![Schéma de Données en Étoile](screenshots/capture_modèle.jpg)
 
 ### 3. Notebook de Traitement & ETL (Jupyter Notebook)
 Le notebook de prétraitement effectue les étapes d'exploration de données (EDA) et applique les règles de nettoyage et de structuration.
+
 ![Jupyter Notebook ETL](screenshots/Prétraitement.jpg)
+
 ![Jupyter Notebook ETL](screenshots/ETL.jpg)
 
 ---
@@ -40,6 +44,7 @@ L'exploration initiale effectuée dans le notebook "Projet BI Netflix.ipynb" a r
 Le pipeline de nettoyage et de structuration a été codé en Python avec la bibliothèque Pandas :
 
 1. **Restauration des valeurs manquantes** : Remplacement des valeurs vides par des valeurs standardisées (`"Unknown"`, `"Not specified"`) pour éviter la perte d'informations.
+
 2. **Correction des anomalies de classification** :
    ```python
    mask = df["rating"].str.contains("min", na=False)
@@ -61,8 +66,11 @@ Afin de garantir des performances optimales et une clarté analytique dans Power
 
 
 * **Table de Faits : `F_Netflix`** : Contient l'identifiant du titre (`show_id`), le titre original, l'année de sortie, la durée, la description ainsi que les clés de substitution : `TypeKey`, `RatingKey` et `DateKey`.
+
 * **Dimensions de Liaison Directe** (1 to Many) : `DimType`, `DimRating`, `DimDate`.
+
 * **Dimensions Multi-valuées Explosées** (Many to Many via clé naturelle `show_id`) : `DimGenre`, `DimCountry`, `DimDirector`, `DimActor`.
+
 
 > **Configuration requise dans Power BI Desktop :**
 > Puisque les dimensions explosées comportent plusieurs enregistrements pour un même show (par exemple, plusieurs genres ou plusieurs pays), vous devez modifier la **Direction du filtre croisé** en **"À double sens" (Both)** pour les relations reliant `F_Netflix` à :
@@ -77,11 +85,16 @@ Afin de garantir des performances optimales et une clarté analytique dans Power
 ### Phase 4 : Dashboard & Design UI/UX
 L'interface utilisateur a été conçue pour offrir une expérience utilisateur premium, inspirée des codes visuels de Netflix :
 * **Palette Chromatique** : Thème sombre (Dark Mode) avec un fond gris foncé/noir, du texte contrasté blanc/gris clair, et l'usage de la couleur **Rouge Netflix** (#E50914) comme couleur d'accent pour attirer l'œil sur les KPIs majeurs.
+
 * **Typographie** : Utilisation de polices modernes et épurées pour une lisibilité maximale des données numériques.
+
 * **Mise en page (Layout)** :
   * **En-tête** : Titre clair accompagné des filtres dynamiques (Année, Type de contenu).
+
   * **Section KPI (Haut)** : 4 cartes de synthèse majeures (Nombre de titres, Nombre de films, Nombre de séries, Nombre de réalisateurs).
+
   * **Section Centrale** : Tendance historique des ajouts (Courbe temporelle) et répartition géographique (Carte ou Top Pays).
+
   * **Section Basse** : Top genres et classification de contenu (Rating).
 
 ---
@@ -91,7 +104,9 @@ Un script de contrôle d'intégrité et de cohérence métier a été développ�
 
 Ce script permet de s'assurer à tout moment qu'aucune anomalie ne s'est glissée lors de l'ETL :
 * **Intégrité Référentielle** : Validation de l'absence de clés étrangères orphelines dans la table de faits et cohérence des liaisons de dimensions.
+
 * **Unicité** : Garantie que `show_id` est bien la clé primaire de la table de faits.
+
 * **Réconciliation de Casse** : Détection des variations de majuscules (ex. *Andrew Lau Wai-keung* vs *Andrew Lau Wai-Keung*) qui expliquent les différences de comptage entre Python et la base Power BI.
 
 #### Pour exécuter la validation :
